@@ -22,6 +22,17 @@ The objective is to gain a practical understanding of:
 - User wallet simulation with buy/sell functionality
 - Transaction history with price tracking
 
+## Potential Improvements
+
+- Add support for **CPMM/CLMM/...**
+- Implement a basic **wallet system** with address tracking and persistent balances (Link with Noctal Blockchain ?)
+- Create a **dynamic pages system** to simulate multiple token pairs and swap pools (Dexscreener/Birdeye/PancakeSwap/...)
+- Integrate a basic **AI model** to simulate more realistic trading bots based on market states (ex: accumulation, bullrun, whale buy/sell, leverage usage)
+- Extend the graphical interface with **real-time analytics**, order book simulation, or slippage analysis
+- Introduce **fee routing logic** to simulate LP rewards and pool earnings
+- ...
+  
+Feel free to improve my project as you wish
 
 NOTE: The frontend was partially created with the help of Gemini and the ApexChart documentation. However, the main goal of this project was to understand and implement the core principles behind AMM pools and DEX logic.
 
