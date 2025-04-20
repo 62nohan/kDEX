@@ -39,5 +39,6 @@ NOTE: The frontend was partially created with the help of Gemini and the ApexCha
 ## Sources:
 - https://docs.pendle.finance/ProtocolMechanics/LiquidityEngines/AMM
 - https://apexcharts.com/javascript-chart-demos/candlestick-charts/category-x-axis/
-- https://xrpl.org/docs/tutorials/javascript/amm/create-an-amm
+- https://medium.com/@deepml1818/implementing-automated-market-making-algorithms-with-python-7ddaddefc641
+- https://www.rsarai.xyz/implementing-liquidity-pool/
 - Gemini 2.5 Pro
