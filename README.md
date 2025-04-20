@@ -26,7 +26,7 @@ The objective is to gain a practical understanding of:
 NOTE: The frontend was partially created with the help of Gemini and the ApexChart documentation. However, the main goal of this project was to understand and implement the core principles behind AMM pools and DEX logic.
 
 ## Sources:
-https://docs.pendle.finance/ProtocolMechanics/LiquidityEngines/AMM
-https://apexcharts.com/javascript-chart-demos/candlestick-charts/category-x-axis/
-https://xrpl.org/docs/tutorials/javascript/amm/create-an-amm
-Gemini 2.5 Pro
+- https://docs.pendle.finance/ProtocolMechanics/LiquidityEngines/AMM
+- https://apexcharts.com/javascript-chart-demos/candlestick-charts/category-x-axis/
+- https://xrpl.org/docs/tutorials/javascript/amm/create-an-amm
+- Gemini 2.5 Pro
