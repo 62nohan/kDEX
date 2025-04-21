@@ -325,15 +325,16 @@ function updateMarketStats() {
     }
 }
 
+
 function addTransaction(type, tokenAmount, usdcAmount, price) {
     if (noTransactionsLi && !noTransactionsLi.classList.contains('hidden')) {
         noTransactionsLi.classList.add('hidden');
     }
 
     const newTransaction = {
-        type,
-        tokenAmount,
-        usdcAmount,
+        type, 
+        tokenAmount, 
+        usdcAmount, 
         price,
         timestamp: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
     };
@@ -342,7 +343,6 @@ function addTransaction(type, tokenAmount, usdcAmount, price) {
     if (transactions.length > MAX_TRANSACTIONS_HISTORY) {
         transactions.pop();
     }
-
     // HTML pour chaque transaction
     const li = document.createElement('li');
     const typeClass = type.toLowerCase().includes('buy') ? 'tx-buy' : 'tx-sell';
@@ -353,16 +353,22 @@ function addTransaction(type, tokenAmount, usdcAmount, price) {
         <span class="tx-details">${formatNumber(usdcAmount, 2)} USDC ${arrow} ${formatNumber(tokenAmount, 4)} NOC</span>
         <span class="tx-price">@ ${price.toFixed(6)}</span>
     `;
-    transactionListUl.prepend(li);
-
-   /* while (transactionListUl.children.length > MAX_TRANSACTIONS_HISTORY + 1) { 
-        if (transactionListUl.lastChild !== noTransactionsLi) { 
-             transactionListUl.removeChild(transactionListUl.lastChild);
+    transactionListUl.prepend(li); 
+    
+    while (transactionListUl.children.length > MAX_TRANSACTIONS_HISTORY) {
+        let elementToRemove = null; 
+        if (noTransactionsLi && transactionListUl.lastChild === noTransactionsLi) {
+            elementToRemove = noTransactionsLi.previousElementSibling;
         } else {
-            break; 
+            elementToRemove = transactionListUl.lastChild;
         }
-    } 
-    */
+
+        if (elementToRemove && elementToRemove !== noTransactionsLi) {
+             transactionListUl.removeChild(elementToRemove);
+        } else {
+            break;
+        }
+    }
 }
 
 // Graphique ApexCharts
