@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noctal DEX</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <div class="dashboard-sidebar">
+            <div class="sidebar-card login-status-card">
+                <div class="logo-container">
+                    <i class="fa-solid fa-chart-pie logo-icon"></i>
+                    <h1>Noctal <span class="beta-badge">BETA</span></h1>
+                </div>
+                <div id="wallet-connect-area">
+                     <button id="login-button" class="primary-btn">
+                        <i class="fas fa-wallet"></i> Connect Wallet
+                    </button>
+                </div>
+                <div id="wallet-status" class="hidden">
+                     <div class="network-indicator">
+                        <span class="network-dot"></span>
+                        <span id="wallet-address">Wallet Connected</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-card wallet-card">
+                <h3><i class="fas fa-piggy-bank icon-left"></i> Mon Portefeuille</h3>
+                <div class="balance-row">
+                    <span class="token-label"><i class="fa-solid fa-dollar-sign currency-icon usdc"></i> USDC:</span>
+                    <span id="usdc-balance" class="balance-value">0.00</span>
+                </div>
+                 <button id="add-usdc-button" class="secondary-btn small-btn">+100,000 USDC (Test)</button>
+                <div class="balance-row">
+                     <span class="token-label"><i class="fa-solid fa-coins currency-icon noc"></i> NOC:</span>
+                    <span id="token-balance" class="balance-value">0.0000</span>
+                </div>
+            </div>
+
+            <div class="sidebar-card market-info-card">
+                <h3><i class="fas fa-info-circle icon-left"></i> Infos Token (NOC)</h3>
+               <div class="info-row">
+                   <span>Market Cap:</span>
+                   <span id="market-cap">$0.00</span>
+               </div>
+               <div class="info-row">
+                   <span>Total Supply:</span>
+                   <span id="total-supply">0.00</span>
+               </div>
+                <div class="info-row">
+                    <span>Current Supply:</span>
+                    <div> <span id="circulating-supply">0.00</span>
+                       <span id="circulating-percent">(0.00%)</span>
+                   </div>
+               </div>
+                <div class="info-row">
+                    <span>Volume (24H):</span>
+                    <span id="24h-volume">$0.00</span>
+                </div>
+                 <div class="info-row links-row">
+                    <span>Infos:</span>
+                    <div>
+                        <span id="Chain" class="info-tag"><i class="fa-solid fa-link"></i> Noctal Chain</span>
+                        <span id="Community" class="info-tag"><i class="fa-brands fa-twitter"></i> Twitter</span>
+                        <span id="Website" class="info-tag"><i class="fa-solid fa-globe"></i> Website</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="trade-section" class="hidden trading-main">
+            <header class="trading-header">
+                <h1>NOC / USDC</h1>
+                <div class="price-display">
+                    <span id="token-price" class="current-price">0.0000 USDC</span>
+                    <span id="price-change" class="change-neutral">0.00%</span>
+                </div>
+            </header>
+
+            <div class="market-container">
+                <div class="chart-container">
+                    <div id="price-chart"></div> </div>
+                <div class="market-stats-card">
+                     <div class="stat-item">
+                        <span>24h Haut</span>
+                        <span id="24h-high" class="stat-value">0.0000</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>24h Bas</span>
+                        <span id="24h-low" class="stat-value">0.0000</span>
+                    </div>
+                 </div>
+            </div>
+
+            <div class="trading-panel">
+                 <div class="order-forms">
+                    <div class="order-card buy-card">
+                        <h3><i class="fa-solid fa-cart-plus icon-left"></i> Acheter NOC</h3>
+                        <div class="form-group">
+                            <label for="buy-amount">Montant USDC à dépenser</label>
+                            <div class="input-with-btn">
+                                <input type="number" id="buy-amount" placeholder="0.00" step="0.01" aria-label="Montant USDC à acheter">
+                                <button id="buy-max-button" class="max-btn">MAX</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Vous recevrez environ (Marché)</label>
+                            <div class="estimated-value" id="buy-cost">0.0000 NOC</div>
+                        </div>
+                        <button id="buy-button" class="buy-btn transaction-btn">
+                            <span class="btn-text">Acheter au Marché</span>
+                            <span class="spinner hidden"></span>
+                         </button>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label for="buy-limit-price">Prix Limite (USDC par NOC)</label>
+                            <input type="number" id="buy-limit-price" placeholder="0.0000" step="0.0001" aria-label="Prix limite d'achat">
+                        </div>
+                        <button id="buy-limit-button" class="buy-btn transaction-btn limit-buy-btn">
+                            <span class="btn-text">Placer Achat Limite</span>
+                            <span class="spinner hidden"></span>
+                        </button>
+                    </div>
+
+                    <div class="order-card sell-card">
+                         <h3><i class="fa-solid fa-sack-dollar icon-left"></i> Vendre NOC</h3>
+                        <div class="form-group">
+                            <label for="sell-amount">Montant NOC à vendre</label>
+                            <div class="input-with-btn">
+                                <input type="number" id="sell-amount" placeholder="0.0000" step="0.0001" aria-label="Montant NOC à vendre">
+                                <button id="sell-max-button" class="max-btn">MAX</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Vous recevrez environ (Marché)</label>
+                            <div class="estimated-value" id="sell-revenue">0.00 USDC</div>
+                        </div>
+                         <button id="sell-button" class="sell-btn transaction-btn">
+                             <span class="btn-text">Vendre au Marché</span>
+                             <span class="spinner hidden"></span>
+                        </button>
+                         <div class="form-group" style="margin-top: 15px;">
+                            <label for="sell-limit-price">Prix Limite (USDC par NOC)</label>
+                            <input type="number" id="sell-limit-price" placeholder="0.0000" step="0.0001" aria-label="Prix limite de vente">
+                        </div>
+                        <button id="sell-limit-button" class="sell-btn transaction-btn limit-sell-btn">
+                            <span class="btn-text">Placer Vente Limite</span>
+                            <span class="spinner hidden"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+             <div class="sidebar-card open-orders-card" id="open-orders-section">
+                <h3><i class="fas fa-book-open icon-left"></i> Ordres Ouverts</h3>
+                <ul id="open-orders-list">
+                    <li class="no-orders">Aucun ordre limite ouvert</li>
+                    </ul>
+            </div>
+
+             <div class="history-card">
+                <h3><i class="fas fa-history icon-left"></i> Historique des Transactions</h3>
+                <ul id="transaction-list">
+                    <li class="no-transactions">Aucune transaction récente</li>
+                 </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification-area"></div>
+    <script src="script.js"></script>
+</body>
+</html>
