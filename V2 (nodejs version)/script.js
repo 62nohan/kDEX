@@ -70,7 +70,13 @@ let currentTransactions = [];
 const MAX_TRANSACTIONS_HISTORY = 100; 
 
 const NOTIFICATION_TIMEOUT = 5000;
-function formatNumber(num, decimals = 2) { if (isNaN(num) || num === null) { return decimals === 2 ? '0.00' : '0.0000'; } return new Intl.NumberFormat('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(num); }
+
+function formatNumber(num, decimals = 2) { 
+    if (isNaN(num) || num === null) { 
+        return decimals === 2 ? '0.00' : '0.0000'; 
+    } 
+    return new Intl.NumberFormat('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(num); }
+
 function showNotification(message, type = 'info') { if(!notificationArea) return; const notification = document.createElement('div'); notification.className = `notification ${type}`; notification.textContent = message; notificationArea.appendChild(notification); setTimeout(() => { notification.style.opacity = '0'; notification.style.transform = 'translateX(100%)'; notification.style.transition = 'opacity 0.5s ease, transform 0.5s ease'; setTimeout(() => notification.remove(), 500); }, NOTIFICATION_TIMEOUT); }
 function setButtonLoading(button, textElement, spinnerElement, isLoading) { if(!button || !textElement || !spinnerElement) return; if (isLoading) { button.disabled = true; spinnerElement.classList.remove('hidden'); textElement.style.visibility = 'hidden'; } else { button.disabled = false; spinnerElement.classList.add('hidden'); textElement.style.visibility = 'visible'; } }
 
