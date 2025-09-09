@@ -1,4 +1,4 @@
-# Noctal DEX – AMM Pool Simulation
+# kDEX – AMM Pool Simulation
 
 This test DEX is a front-end simulation of a decentralized exchange using an Automated Market Maker (AMM) model like Uniswap/Raydium/... The project was developed for my personnal purposes, focusing on how liquidity pools operate, how token pricing is defined with the constant product formula, and how liquidity is affected by market actions.
 
